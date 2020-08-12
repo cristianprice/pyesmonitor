@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <!-- Compiled and minified JavaScript -->
+  <title>EsMonitor</title>
+
+  <style>
+    .brand-logo {
+      margin-left: 30px;
+    }
+  </style>
+
+  {% block styles %}
+
+  {% endblock %}
+</head>
+
+<body>
+  <div class="container">
+    {% include "esmonitor/dropdowns.html" %}
+
+    <nav class="nav-wrapper z-depth-3 blue">
+      <a href="#" class="brand-logo"> EsMonitor</a>
+      <div class="container">
+        <a href="#" class="sidenav-trigger" data-target="mobile-links">
+          <i class="material-icons">menu</i>
+        </a>
+
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {% include "esmonitor/burger_menu.html" %}
+        </ul>
+      </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-links">
+      {% include "esmonitor/burger_menu_mobile.html" %}
+    </ul>
+
+    {% block content %}
+    <p>This is the page body.</p>
+    {% endblock %}
+  </div>
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $(".dropdown-trigger").dropdown({
+        hover: false
+      });
+      $(".sidenav").sidenav();
+      $('.tooltipped').tooltip();
+      $('.collapsible').collapsible();
+    });
+
+    function post(url, data) {
+      const ret = new Promise((resolutionFunc, rejectionFunc) => {
+        $.ajax({
+          url: url,
+          type: 'POST',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(data),
+          dataType: 'text',
+          success: function (result) {
+            resolutionFunc(result);
+          },
+
+          error: function (result) {
+            rejectionFunc(result);
+          }
+        });
+      });
+
+
+      return ret;
+    };
+
+    function get(url) {
+      const ret = new Promise((resolutionFunc, rejectionFunc) => {
+        $.ajax({
+          url: url,
+          type: 'GET',
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'text',
+          success: function (result) {
+            resolutionFunc(result);
+          },
+
+          error: function (result) {
+            rejectionFunc(result);
+          }
+        });
+      });
+
+
+      return ret;
+    };
+  </script>
+  {% block scripts %}
+  {% endblock %}
+</body>
+
+</html>

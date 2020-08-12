@@ -1,0 +1,16 @@
+[
+  {
+    "model": "esmonitor.Settings",
+    "pk": "granularity_polling_seconds",
+    "fields": {
+      "value": "30"
+    }
+  },
+  {
+    "model": "esmonitor.Settings",
+    "pk": "delta_points_show_hours",
+    "fields": {
+      "value": "30"
+    }
+  }
+]
