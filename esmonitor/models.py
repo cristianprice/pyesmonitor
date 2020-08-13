@@ -1,6 +1,7 @@
 from django.db import models
 
-from .es_utils import ES_STATS_TYPES
+ES_STATS_TYPES = (('node_stats', 'node_stats'),
+                  ('cluster_stats', 'cluster_stats'))
 
 # Create your models here.
 
@@ -24,7 +25,6 @@ class ClusterHost(models.Model):
 class Stats(models.Model):
     cluster_host = models.OneToOneField(ClusterHost,
                                         on_delete=models.CASCADE,
-                                        primary_key=True,
                                         default="127.0.0.1")
     name = models.CharField(max_length=200, null=False, choices=ES_STATS_TYPES)
 
