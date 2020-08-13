@@ -23,17 +23,15 @@ class ClusterHost(models.Model):
 
 
 class Stats(models.Model):
-    cluster_host = models.OneToOneField(ClusterHost,
-                                        on_delete=models.CASCADE,
-                                        default="127.0.0.1")
+    cluster_host = models.ForeignKey(ClusterHost,
+                                     on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=False, choices=ES_STATS_TYPES)
 
     request_date = models.DateTimeField(auto_now_add=True, blank=True)
     json_content = models.TextField(null=False)
-    polling_in_seconds = models.IntegerField(default=30)
 
     class Meta:
-        unique_together = (('cluster_host', 'request_date', 'name'),)
+        unique_together = [['cluster_host_id', 'request_date', 'name']]
         indexes = [
             models.Index(fields=['-request_date', ]),
         ]

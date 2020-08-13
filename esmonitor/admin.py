@@ -9,7 +9,8 @@ class ClusterHostAdmin(admin.ModelAdmin):
 
 
 class StatsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'request_date']
+    ordering = ['-request_date']
 
 
 class SettingsAdmin(admin.ModelAdmin):
