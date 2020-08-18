@@ -1,3 +1,4 @@
+from django.conf import settings
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
@@ -12,9 +13,15 @@ coloredlogs.install()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+db_conf = settings.DATABASES['default']
+db_name = db_conf['NAME']
+db_user = db_conf['USER']
+db_pass = db_conf['PASSWORD']
+db_host = db_conf['HOST']
+db_port = db_conf['PORT']
 
 jobstores = {
-    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+    'default': SQLAlchemyJobStore(url=f'postgresql+psycopg2://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}')
 }
 
 executors = {
@@ -38,7 +45,7 @@ def poll_es_stats(cluster_host, stat_type):
         cluster_host.host, cluster_host.port, cluster_host.protocol)
 
     Stats.objects.create(cluster_host=cluster_host,
-                         name=stat_type, json_content=json.dumps(json_content))
+                         name=stat_type, json_content=json_content)
 
 
 scheduler = BackgroundScheduler()

@@ -28,7 +28,7 @@ class Stats(models.Model):
     name = models.CharField(max_length=200, null=False, choices=ES_STATS_TYPES)
 
     request_date = models.DateTimeField(auto_now_add=True, blank=True)
-    json_content = models.TextField(null=False)
+    json_content = models.JSONField(null=False)
 
     class Meta:
         unique_together = [['cluster_host_id', 'request_date', 'name']]
